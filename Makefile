@@ -22,7 +22,7 @@ export DOCKER_CLI_EXPERIMENTAL := enabled
 
 image-amd64:
 	mkdir -p out
-	linuxkit build -docker -pull -format kernel+initrd -name hook-x86_64 -dir out $(LINUXKIT_CONFIG)
+	linuxkit build -docker -format kernel+initrd -name hook-x86_64 -dir out $(LINUXKIT_CONFIG)
 
 image-arm64:
 	mkdir -p out
@@ -50,13 +50,13 @@ run:
 	sudo ~/go/bin/linuxkit run qemu --mem 2048 out/hook-${ARCH}
 
 dev-bootkitBuild:
-	cd bootkit; docker buildx build -load -t $(ORG)/hook-bootkit:0.0 .
+	cd bootkit; docker buildx build --load -t $(ORG)/hook-bootkit:0.0 .
 
 bootkitBuild:
 	cd bootkit; docker buildx build --platform linux/amd64,linux/arm64 --push -t $(ORG)/hook-bootkit:0.0 .
 
 dev-tink-dockerBuild:
-	cd tink-docker; docker buildx build -load -t $(ORG)/hook-docker:0.0 .
+	cd tink-docker; docker buildx build --load -t $(ORG)/hook-docker:0.0 .
 
 tink-dockerBuild:
 	cd tink-docker; docker buildx build --platform linux/amd64,linux/arm64 --push -t $(ORG)/hook-docker:0.0 .

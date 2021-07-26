@@ -38,16 +38,8 @@ services:
      - /etc/resolv.conf:/etc/resolv.conf
      - /lib/modules:/lib/modules
      - /etc/docker/daemon.json:/etc/docker/daemon.json
-     - /var/run/docker:/var/run
-     - /var/run/worker:/worker
-     - /dev/console:/dev/console
      - /dev:/dev
-     - /var/run/images:/var/lib/docker
-    runtime:
-      mkdir:
-        - /var/run/images
-        - /var/run/docker
-        - /var/run/worker
+     - /var/lib/docker:/var/lib/docker
   - name: bootkit
     image: quay.io/tinkerbell/hook-bootkit:0.0
     capabilities:
@@ -56,12 +48,9 @@ services:
     mounts:
      - type: cgroup
        options: ["rw","nosuid","noexec","nodev","relatime"]
-    binds:
-     - /var/run/docker:/var/run
-    runtime:
-      mkdir:
-        - /var/run/docker
 files:
+  - path: var/lib/docker
+    directory: true
   - path: etc/docker/daemon.json
     contents: '{"debug": true}'
 trust:
